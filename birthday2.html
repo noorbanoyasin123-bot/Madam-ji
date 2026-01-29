@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+<style>
+*{box-sizing:border-box;}
+body{margin:0;font-family: 'Segoe UI', Arial, sans-serif;background:#fdeff4;text-align:center;overflow-x:hidden;}
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:absolute;width:100%;left:100%;top:0;transition:left 0.5s ease-in-out;}
+.active{left:0;}
+.previous{left:-100%;}
+h1{font-size:7vw;} h2{font-size:5.5vw;} p{font-size:4.5vw; max-width:90%; line-height:1.6;}
+button{padding:14px 26px;border:none;border-radius:30px;font-size:4.5vw;background:#e91e63;color:white;margin:10px;width:80%;max-width:300px;}
+img{max-width:80%;height:auto;margin-top:20px;}
+.fly{animation: fly 3s linear forwards;}
+.heart{position:absolute;pointer-events:none;}
+/* Balloon animation */
+@keyframes fly {from { transform: translateY(0); } to { transform: translateY(-120vh); }}
+/* Hearts animation */
+@keyframes float1 {0%{transform:translateY(0)}100%{transform:translateY(-120vh)}}
+@keyframes float2 {0%{transform:translateY(0)}100%{transform:translateY(-130vh)}}
+@keyframes float3 {0%{transform:translateY(0)}100%{transform:translateY(-110vh)}}
+@keyframes float4 {0%{transform:translateY(0)}100%{transform:translateY(-140vh)}}
+@keyframes float5 {0%{transform:translateY(0)}100%{transform:translateY(-125vh)}}
+/* Gallery */
+.gallery-container{position:relative;width:90%;overflow:hidden;margin:0 auto;}
+.gallery-track{display:flex;transition:transform 0.4s ease;}
+.gallery-track img{flex-shrink:0;width:100%;border-radius:15px;margin-right:10px;}
+</style>
+</head>
+<body>
+
+<audio id="music" src="darkhast.mp3"></audio>
+
+<!-- Slide 1 -->
+<div class="slide active">
+    <h1>It's Your Special Day Yeyey 🎉</h1>
+    <button onclick="nextSlide()">Next</button>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide">
+    <h2>To make something special for you<br>as you're special to me 💖</h2>
+    <button onclick="nextSlide()">Next</button>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide">
+    <h2>I have made something for you<br>Do you wanna see?</h2>
+    <button onclick="nextSlide()">Yes</button>
+    <button onclick="alert('Aww come on 😅')">No</button>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide">
+    <h2>Have a look at it Madam Ji 😊</h2>
+    <button onclick="nextSlide()">Next</button>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide">
+    <h2>First, play some music 🎵</h2>
+    <button onclick="playMusic()">Play Music</button>
+</div>
+
+<!-- Slide 6 -->
+<div class="slide">
+    <h2>Let’s decorate 🎊</h2>
+    <button onclick="nextSlide()">Decorate</button>
+</div>
+
+<!-- Slide 7 -->
+<div class="slide">
+    <h2>Fly the balloon 🎈</h2>
+    <img id="balloon" src="balloon.png">
+    <button onclick="flyBalloon()">Fly Balloon</button>
+</div>
+
+<!-- Slide 8 -->
+<div class="slide">
+    <h2>Let’s cut the cake Madam Ji 🎂</h2>
+    <img src="cake.png">
+    <button onclick="nextSlide()">Cut the Cake</button>
+</div>
+
+<!-- Slide 9 -->
+<div class="slide">
+    <h2>I have a message for you Madam Ji 💌</h2>
+    <button onclick="showMessage()">Read Message</button>
+</div>
+
+<!-- Slide 10: Romantic message -->
+<div class="slide" id="romanticMessageSlide" style="position:relative; background:#fdeff4;">
+    <p style="width:85%; margin:100px auto; font-size:4.5vw; line-height:1.6; color:#333;">
+        Happy Birthday, my love 💖<br><br>
+        Since the very moment you came into my life, everything changed. It’s like the world suddenly became brighter, and my heart found a home in you. I feel like I’ve loved you in every universe, in every lifetime, and I will keep loving you for all eternity. You are my happiness, my comfort, my inspiration, and the reason I smile every day. Every little thing about you — your laugh, your smile, the way you care — makes me fall for you all over again.<br><br>
+        On your special day, I wish that all your dreams come true, that you achieve everything your heart desires, and that life showers you with endless success and joy. I promise to always be by your side, supporting you, loving you, and cherishing every moment we share. You are my everything, my forever, and I can’t imagine a life without you. Thank you for being you, and for making my life infinitely better just by existing. I love you more than words can ever express, and I will keep loving you in every world, every universe, for all time.
+    </p>
+    <div id="heartsContainer"></div>
+    <button onclick="nextSlide()">Next</button>
+</div>
+
+<!-- Slide 11: Swipeable Gallery -->
+<div class="slide">
+    <h2>Some Special Moments 📸</h2>
+    <div class="gallery-container">
+        <div class="gallery-track">
+            <img src="pic1.jpg">
+            <img src="pic2.jpg">
+            <img src="pic3.jpg">
+        </div>
+    </div>
+    <div style="margin-top:15px;">
+        <button onclick="prevImage()">⬅️</button>
+        <button onclick="nextImage()">➡️</button>
+    </div>
+</div>
+
+<script>
+let index = 0;
+const slides = document.querySelectorAll('.slide');
+
+function nextSlide(){
+    slides[index].classList.remove('active');
+    slides[index].classList.add('previous');
+    index++;
+    if(index < slides.length) slides[index].classList.add('active');
+}
+
+// Music
+function playMusic(){
+    document.getElementById("music").play();
+    nextSlide();
+}
+
+// Balloon fly
+function flyBalloon(){
+    document.getElementById("balloon").classList.add("fly");
+    setTimeout(nextSlide, 3000);
+}
+
+// Romantic message hearts
+function showMessage(){
+    slides[index].classList.remove('active');
+    document.getElementById('romanticMessageSlide').classList.add('active');
+    index++;
+    createHearts();
+}
+
+function createHearts(){
+    const container = document.getElementById('heartsContainer');
+    for(let i=0;i<25;i++){
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerText = "💖";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.fontSize = (20 + Math.random()*30) + "px";
+        heart.style.animation = `float${i%5+1} ${5+Math.random()*5}s linear infinite`;
+        container.appendChild(heart);
+    }
+}
+
+// Swipeable gallery
+const galleryTrack = document.querySelector('.gallery-track');
+const totalImages = galleryTrack.children.length;
+let currentIndex = 0;
+
+function updateGallery(){
+    galleryTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+function nextImage(){
+    if(currentIndex < totalImages - 1){
+        currentIndex++;
+        updateGallery();
+    }
+}
+
+function prevImage(){
+    if(currentIndex > 0){
+        currentIndex--;
+        updateGallery();
+    }
+}
+
+// Swipe support for mobile
+let startX = 0;
+galleryTrack.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+galleryTrack.addEventListener('touchend', e => {
+    let endX = e.changedTouches[0].clientX;
+    if(startX - endX > 50) nextImage();
+    if(endX - startX > 50) prevImage();
+});
+</script>
+
+</body>
+</html>
